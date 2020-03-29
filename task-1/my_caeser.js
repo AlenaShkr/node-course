@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
-const stream = require('stream');
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
 const { pipeline } = require('stream');
 const { program } = require('commander');
+
+const EncodeTransform = require('./transform');
 
 program.storeOptionsAsProperties(false);
 
@@ -18,26 +19,6 @@ program.parse(process.argv);
 
 // eslint-disable-next-line no-unused-vars
 const { action, shift, input, output } = program.opts();
-
-class EncodeTransform extends stream.Transform {
-  constructor(value) {
-    super();
-    this.value = value;
-  }
-  _transform(data, encoding, callback) {
-    this.push(
-      data
-        .toString()
-        .replace(/[A-Z]/g, c =>
-          String.fromCharCode(((c.charCodeAt() - 65 + this.value) % 26) + 65)
-        )
-        .replace(/[a-z]/g, c =>
-          String.fromCharCode(((c.charCodeAt() - 97 + this.value) % 26) + 97)
-        )
-    );
-    callback();
-  }
-}
 
 let transform;
 let readStream;
