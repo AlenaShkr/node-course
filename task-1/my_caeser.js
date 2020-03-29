@@ -25,7 +25,7 @@ let readStream;
 let writeStream;
 
 if (action === 'encode') {
-  transform = new EncodeTransform(shift);
+  transform = new EncodeTransform(shift % 26);
 } else if (action === 'decode') {
   transform = new EncodeTransform((26 - shift) % 26);
 } else if (action !== 'encode' || action !== 'decode') {
@@ -45,7 +45,7 @@ if (input === undefined) {
   });
 }
 if (output !== undefined) {
-  const pathToWrite = path.join(__dirname, `${output}.txt`);
+  const pathToWrite = path.join(__dirname, `${output}`);
   writeStream = fs.createWriteStream(pathToWrite);
 } else {
   writeStream = process.stdout;
@@ -54,6 +54,6 @@ pipeline(readStream, transform, writeStream, err => {
   if (err) {
     process.stderr.write('Something wrong');
   } else {
-    console.log('Pipeline succeeded.');
+    console.log('process encoding/decoding finish success.');
   }
 });
