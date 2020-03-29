@@ -1,4 +1,4 @@
-##Running application
+##Running application##
  
 In terminal should write 
 $ node my_caesar -a xxx -s xx -i xxx -o xxxx, 
