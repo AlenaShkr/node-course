@@ -19,7 +19,7 @@ if (action === 'encode') {
 } else if (action === 'decode') {
   transform = new EncodeTransform((26 - shift) % 26);
 } else if (action !== 'encode' || action !== 'decode') {
-  process.stderr.write('wrong action');
+  process.stderr.write('Input your action is wrong.\n Please, check');
   // eslint-disable-next-line no-process-exit
   process.exit(1);
 }
