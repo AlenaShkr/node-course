@@ -3,26 +3,16 @@ const path = require('path');
 const process = require('process');
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
 const { pipeline } = require('stream');
-const { program } = require('commander');
+// const { program } = require('commander');
 
 const EncodeTransform = require('./transform');
 const writeStreamProcess = require('./write-stream');
+const options =require('./program-option');
 
-program.storeOptionsAsProperties(false);
-
-program
-  .requiredOption('-a, --action <string>', 'encode/decode')
-  .requiredOption('-s, --shift <value>', 'shift')
-  .option('-i, --input <type>', 'infile')
-  .option('-o, --output <filename>', 'outfile');
-
-program.parse(process.argv);
-
-const { action, shift, input, output } = program.opts();
+const { action, shift, input, output } = options;
 
 let transform;
 let readStream;
-let writeStream;
 
 if (action === 'encode') {
   transform = new EncodeTransform(shift % 26);
@@ -44,7 +34,7 @@ if (input === undefined) {
     if (err) process.stderr.write('file do not exist\n');
   });
 }
-writeStream = writeStreamProcess(output);
+const writeStream = writeStreamProcess(output);
 pipeline(readStream, transform, writeStream, err => {
   if (err) {
     process.stderr.write('Something wrong');
