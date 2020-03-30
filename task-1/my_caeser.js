@@ -10,14 +10,13 @@ const EncodeTransform = require('./transform');
 program.storeOptionsAsProperties(false);
 
 program
-  .requiredOption('-a, --action <string>', 'encode/decode', 'encode')
-  .requiredOption('-s, --shift <value>', 'shift', 7)
+  .requiredOption('-a, --action <string>', 'encode/decode')
+  .requiredOption('-s, --shift <value>', 'shift')
   .option('-i, --input <type>', 'infile')
   .option('-o, --output <filename>', 'outfile');
 
 program.parse(process.argv);
 
-// eslint-disable-next-line no-unused-vars
 const { action, shift, input, output } = program.opts();
 
 let transform;
@@ -46,7 +45,7 @@ if (input === undefined) {
 }
 if (output !== undefined) {
   const pathToWrite = path.join(__dirname, `${output}`);
-  writeStream = fs.createWriteStream(pathToWrite);
+  writeStream = fs.createWriteStream(pathToWrite, {flags: 'a'});
 } else {
   writeStream = process.stdout;
 }
@@ -54,6 +53,6 @@ pipeline(readStream, transform, writeStream, err => {
   if (err) {
     process.stderr.write('Something wrong');
   } else {
-    console.log('process encoding/decoding finish success.');
+    console.log('process encoding/decoding finish successful.');
   }
 });
