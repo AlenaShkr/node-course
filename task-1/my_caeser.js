@@ -6,6 +6,7 @@ const { pipeline } = require('stream');
 const { program } = require('commander');
 
 const EncodeTransform = require('./transform');
+const writeStreamProcess = require('./write-stream');
 
 program.storeOptionsAsProperties(false);
 
@@ -43,12 +44,7 @@ if (input === undefined) {
     if (err) process.stderr.write('file do not exist\n');
   });
 }
-if (output !== undefined) {
-  const pathToWrite = path.join(__dirname, `${output}`);
-  writeStream = fs.createWriteStream(pathToWrite, {flags: 'a'});
-} else {
-  writeStream = process.stdout;
-}
+writeStream = writeStreamProcess(output);
 pipeline(readStream, transform, writeStream, err => {
   if (err) {
     process.stderr.write('Something wrong');
