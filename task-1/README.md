@@ -1,7 +1,7 @@
 ##Running application##
  
 In terminal should write 
-$ node my_caesar -a xxx -s xx -i xxx -o xxxx, 
+$ node my_caeser -a xxx -s xx -i xxx -o xxxx, 
 
 where
 -s, --shift: a shift
@@ -11,4 +11,4 @@ where
 
 For example:
 
-$ node my_caesar -a encode -s 7 -i "./input.txt" -o "./output.txt"
+$ node my_caeser -a encode -s 7 -i "./input.txt" -o "./output.txt"
