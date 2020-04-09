@@ -17,6 +17,11 @@ class User {
     const { id, name, login } = user;
     return { id, name, login };
   }
+  static toUpdate(user, data) {
+    const { id } = user;
+    const { name, login, password } = data;
+    return { id, name, login, password };
+  }
 }
 
 module.exports = User;

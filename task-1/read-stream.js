@@ -3,6 +3,7 @@ const path = require('path');
 const process = require('process');
 
 function defineReadStream(inputFile) {
+  let readStream;
   if (inputFile === undefined) {
     process.stdout.write('Please input some value\n');
     readStream = process.stdin;

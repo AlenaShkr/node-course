@@ -28,11 +28,7 @@ CLI tool should accept 4 options (short alias and full name):
 4. If the output file is missed - use stdout as an output destination.
 5. If the input and/or output file is given but doesn't exist or you can't read it (e.g. because of permissions or it is a directory) - human-friendly error should be printed in stderr.
 6. If passed params are fine the output (file or stdout) should contain encoded/decoded content of input (file or stdin).
-<<<<<<< HEAD
-7. For encoding/decoding use only the English alphabet (lower-case), all other characters should be kept untouched.
-=======
 7. For encoding/decoding use only the English alphabet, all other characters should be kept untouched.
->>>>>>> 852550624e72cc753480d2e46ed62948344c327b
 
 **Hints:**
 As suggested solution to make streams code more robust, and memory effective, consider to use [pipeline method](https://nodejs.org/api/stream.html#stream_stream_pipeline_streams_callback).
@@ -66,8 +62,6 @@ $ node my_caesar_cli --action decode --shift 7 --input decoded.txt --output plai
 
 > output.txt
 > `Aopz pz zljyla. Tlzzhnl hivba "_" zftivs!`
-<<<<<<< HEAD
-=======
 
 ## Task 2. Express REST service
 
@@ -152,4 +146,3 @@ Add logging functionality to already existing REST service.
 3. Add errors handling to `process.on(‘uncaughtException’,...)`.
 4. Add Unhandled promise rejection listener to log error
 5. Logging should be done using just console.log method.
->>>>>>> 852550624e72cc753480d2e46ed62948344c327b

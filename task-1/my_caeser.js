@@ -5,7 +5,7 @@ const { pipeline } = require('stream');
 const EncodeTransform = require('./transform');
 const defineReadStream = require('./read-stream');
 const writeStreamProcess = require('./write-stream');
-const options =require('./program-option');
+const options = require('./program-option');
 
 const { action, shift, input, output } = options;
 
@@ -21,10 +21,11 @@ if (action === 'encode') {
   process.exit(1);
 }
 const readStream = defineReadStream(input);
-  readStream.on('error', err => {
-    if (err) process.stderr.write('file don\'t exist\n');
-    process.exit(1);
-  });
+readStream.on('error', err => {
+  if (err) process.stderr.write("file don't exist\n");
+  // eslint-disable-next-line no-process-exit
+  process.exit(1);
+});
 
 const writeStream = writeStreamProcess(output);
 pipeline(readStream, transform, writeStream, err => {
