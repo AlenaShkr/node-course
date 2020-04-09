@@ -1,9 +1,12 @@
 const Task = require('./task.model');
 
-const taskData = [new Task({ id: '753' }), new Task()];
+let taskData = [];
 
-const getAll = async () => taskData;
+const getAllByBoard = async boardId =>
+  taskData.filter(item => item.boardId === boardId);
+
 const getById = async id => taskData.find(element => element.id === id);
+
 const postTask = async (data, boardId) => {
   const newTask = new Task(data);
   newTask.boardId = boardId;
@@ -13,7 +16,10 @@ const postTask = async (data, boardId) => {
 
 const deleteTask = async id => {
   const index = taskData.findIndex(element => element.id === id);
-  taskData.splice(index, 1);
+  if (index !== -1) {
+    taskData = taskData.filter(el => el.id !== id);
+  }
+  return taskData[index];
 };
 
 const deleteAllTask = async () => {
@@ -22,23 +28,29 @@ const deleteAllTask = async () => {
 };
 
 const updateTask = async (id, data) => {
-  const updTask = Task.toUpdate(id, data);
-  const boardId = data.boardId;
-  deleteTask(id);
-  postTask(updTask, boardId);
-  return updTask;
+  const task = taskData.find(item => item.id === id);
+  if (task) {
+    if (data.title) task.title = data.title;
+    if (data.order) task.columns = data.order;
+    if (data.description) task.description = data.description;
+    if (data.userId) task.userId = data.userId;
+    if (data.columnId) task.columnIds = data.columnId;
+    if (data.boardId) task.boardIds = data.boardId;
+  }
+  return task;
 };
 
 const updateTaskUserId = async idUser => {
-  let index = taskData.findIndex(element => element.userId === idUser);
-  while (index !== -1) {
-    taskData[index].userId = null;
-    index = taskData.findIndex(element => element.userId === idUser);
-  }
+  taskData.forEach(task => {
+    if (task.userId === idUser) {
+      task.userId = null;
+    }
+  });
+  return;
 };
 
 module.exports = {
-  getAll,
+  getAllByBoard,
   getById,
   postTask,
   deleteTask,

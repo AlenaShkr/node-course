@@ -2,7 +2,9 @@ const router = require('express').Router({ mergeParams: true });
 const tasksService = require('./task.service');
 
 router.route('/').get(async (req, res) => {
-  const tasks = await tasksService.getAll();
+  const { boardId } = req.params;
+  console.log(boardId);
+  const tasks = await tasksService.getAllByBoard(boardId);
   res.json(tasks);
 });
 
@@ -14,19 +16,22 @@ router.route('/:id').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-  const tasks = await tasksService.postTask(req.body, req.params.id);
+  const { boardId } = req.params;
+  const tasks = await tasksService.postTask(req.body, boardId);
   res.json(tasks);
 });
 
 router.route('/:id').delete(async (req, res) => {
-  await tasksService.deleteTask(req.params.id);
-  res.status(204).json();
+  const task = await tasksService.deleteTask(req.params.id);
+  if (task) {
+    res.status(204).json();
+  } else res.status(404).send({ error: "the task doesn't exist" });
 });
 
 router.route('/:id').put(async (req, res) => {
   const task = await tasksService.getById(req.params.id);
+  const updateTask = await tasksService.updateTask(req.params.id, req.body);
   if (task) {
-    const updateTask = await tasksService.updateTask(task, req.body);
     res.json(updateTask);
   } else res.status(404).send({ error: "the task doesn't exist" });
 });

@@ -1,9 +1,5 @@
 const Board = require('./board.model');
-const boardsData = [
-  new Board(),
-  new Board({ id: '12' }),
-  new Board({ id: '12012' })
-];
+const boardsData = [];
 
 const getAll = async () => boardsData;
 const getById = async id => boardsData.find(element => element.id === id);
