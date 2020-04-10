@@ -6,7 +6,7 @@ class Task {
     title = 'title',
     order = '0',
     description = 'blablabla',
-    userId = '123',
+    userId = null,
     columnId = null,
     boardId = null
   } = {}) {
@@ -19,9 +19,10 @@ class Task {
     this.boardId = boardId;
   }
   static toResponse(task) {
-    const { id, title, order, description, userId } = task;
-    return { id, title, order, description, userId };
+    const { id, title, order, description, userId, columnId, boardId } = task;
+    return { id, title, order, description, userId, columnId, boardId };
   }
+
   static toUpdate(idData, data) {
     const { id, boardId } = idData;
     const { title, order, description, userId, columnId } = data;

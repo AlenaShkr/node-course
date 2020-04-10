@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
+const taskService = require('../task/task.service');
 
 router.route('/').get(async (req, res) => {
   const users = await usersService.getAll();
@@ -15,24 +16,22 @@ router.route('/:id').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-  const newUser = new User(req.body);
-  await usersService.postUser(newUser);
+  const newUser = await usersService.postUser(req.body);
   res.json(User.toResponse(newUser));
 });
 
 router.route('/:id').delete(async (req, res) => {
-  const user = await usersService.deleteUser(req.params.id);
-  if (user) {
-    res.status(204).json();
-  } else res.status(404).json();
+  taskService.updateTaskUserId(req.params.id);
+  usersService.deleteUser(req.params.id);
+  res.json();
 });
 
 router.route('/:id').put(async (req, res) => {
-  const user = await usersService.getById(req.params.id);
-  const updateUser = User.toUpdate(user, req.body);
-  await usersService.deleteUser(req.params.id);
-  await usersService.postUser(updateUser);
-  res.json(User.toResponse(updateUser));
+  const user = usersService.getById(req.params.id);
+  if (user) {
+    const updateUser = await usersService.updateUser(req.params.id, req.body);
+    res.json(User.toResponse(updateUser));
+  }
 });
 
 module.exports = router;

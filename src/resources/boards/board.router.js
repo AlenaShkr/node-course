@@ -20,14 +20,23 @@ router.route('/').post(async (req, res) => {
 });
 
 router.route('/:id').delete(async (req, res) => {
-  await boardsService.deleteBoard(req.params.id);
-  await taskService.deleteAllTask();
-  res.status(204).json();
+  const board = boardsService.getById(req.params.id);
+  if (board) {
+    taskService.deleteAllTask(req.params.id);
+    boardsService.deleteBoard(req.params.id);
+    res.status(204).json();
+  } else res.status(404).send({ error: "the board doesn't exist" });
 });
 
 router.route('/:id').put(async (req, res) => {
-  const updateBoard = await boardsService.updateBoard(req.params.id, req.body);
-  res.json(updateBoard);
+  const board = boardsService.getById(req.params.id);
+  if (board) {
+    const updateBoard = await boardsService.updateBoard(
+      req.params.id,
+      req.body
+    );
+    res.json(updateBoard);
+  } else res.status(404).send({ error: "the board doesn't exist" });
 });
 
 module.exports = router;
