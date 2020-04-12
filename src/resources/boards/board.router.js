@@ -7,7 +7,7 @@ const { catchError } = require('../logger/logger.module');
 router.route('/').get(
   catchError(async (req, res) => {
     const boards = await boardsService.getAll();
-    res.json(boards);
+    res.status(200).json(boards);
   })
 );
 
@@ -15,26 +15,27 @@ router.route('/:id').get(
   catchError(async (req, res) => {
     const board = await boardsService.getById(req.params.id);
     if (board) {
-      res.json(board);
-    } else res.status(404).send({ error: "the board doesn't exist" });
+      res.status(200).json(board);
+    }
+    throw new TypeError();
   })
 );
 
 router.route('/').post(
   catchError(async (req, res) => {
     const newBoard = await boardsService.postBoard(req.body);
-    res.json(newBoard);
+    res.status(200).json(newBoard);
   })
 );
 
 router.route('/:id').delete(
   catchError(async (req, res) => {
-    const board = boardsService.getById(req.params.id);
+    const board = await boardsService.getById(req.params.id);
     if (board) {
       taskService.deleteAllTask(req.params.id);
       boardsService.deleteBoard(req.params.id);
       res.status(204).json();
-    } else res.status(404).send({ error: "the board doesn't exist" });
+    } else throw new TypeError();
   })
 );
 
@@ -46,8 +47,8 @@ router.route('/:id').put(
         req.params.id,
         req.body
       );
-      res.json(updateBoard);
-    } else res.status(404).send({ error: "the board doesn't exist" });
+      res.status(200).json(updateBoard);
+    } else throw new TypeError();
   })
 );
 

@@ -33,7 +33,7 @@ router.route('/:id').delete(
       taskService.updateTaskUserId(req.params.id);
       usersService.deleteUser(req.params.id);
       res.status(204).json();
-    } else res.status(404).json();
+    } else throw new TypeError();
   })
 );
 

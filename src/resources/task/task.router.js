@@ -16,7 +16,7 @@ router.route('/:id').get(
     const task = await tasksService.getById(req.params.id);
     if (task) {
       res.status(200).json(task);
-    } else res.status(404).send({ error: "the task doesn't exist" });
+    } else throw new TypeError();
   })
 );
 
@@ -41,7 +41,7 @@ router.route('/:id').put(
     if (task) {
       const updateTask = await tasksService.updateTask(task, req.body);
       res.json(updateTask);
-    } else res.status(404).send({ error: "the task doesn't exist" });
+    } else throw new TypeError();
   })
 );
 
