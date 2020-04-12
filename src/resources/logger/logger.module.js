@@ -34,6 +34,7 @@ const loggerErrorToFile = morgan(formatMorgan, {
   stream: errorLog
 });
 
+// handlers for log errors
 const catchError = fn => async (req, res, next) => {
   try {
     return await fn(req, res, next);

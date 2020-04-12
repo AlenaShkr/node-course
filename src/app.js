@@ -43,4 +43,16 @@ app.use(notFoundHandler);
 // internal_server_error
 app.use(commonErrorHandler);
 
+process.on('uncaughtException', error => {
+  console.error(`captured error: ${error.message}`);
+  const { exit } = process;
+  exit(1);
+});
+
+process.on('unhandledRejection', reason => {
+  console.error(`Unhandled rejection detected: ${reason.message}`);
+  const { exit } = process;
+  exit(1);
+});
+
 module.exports = app;
