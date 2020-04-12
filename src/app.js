@@ -8,10 +8,7 @@ const taskRouter = require('./resources/task/task.router');
 const {
   loggerToConsole,
   loggerLogToFile,
-  loggerErrorToFile,
-  URLErrorHandler,
-  notFoundHandler,
-  commonErrorHandler
+  loggerErrorToFile
 } = require('./resources/logger/logger.module');
 
 const app = express();
@@ -38,10 +35,31 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
 
+function URLErrorHandler(req, res, next) {
+  if (req.url !== '/users' || req.url !== '/boards') {
+    res.status(400).send({ error: 'BAD_REQUEST' });
+  } else {
+    return next();
+  }
+}
+
 app.use(URLErrorHandler);
-app.use(notFoundHandler);
+
+app.use((err, req, res, next) => {
+  if (err instanceof TypeError) {
+    err.status = 404;
+    err.text = 'Not found';
+    res.status(err.status).send(err.text);
+    return;
+  }
+  next(err);
+});
+
 // internal_server_error
-app.use(commonErrorHandler);
+app.use((err, req, res, next) => {
+  res.status(500).json('INTERNAL_SERVER_ERROR');
+  next(err);
+});
 
 process.on('uncaughtException', error => {
   console.error(`captured error: ${error.message}`);
