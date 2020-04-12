@@ -17,7 +17,7 @@ const errorLog = fs.createWriteStream(
 );
 
 const formatMorgan =
-  'date: :date[web]   ":method :url"  status: :status params: :params body: :reqbody referrer: ":referrer" ';
+  'date: :date[web]   ":method :url"  status: :status  params: :params body: :reqbody referrer: ":referrer" ';
 const loggerToConsole = morgan(formatMorgan);
 
 const loggerLogToFile = morgan(formatMorgan, {
@@ -34,8 +34,17 @@ const loggerErrorToFile = morgan(formatMorgan, {
   stream: errorLog
 });
 
+const catchError = fn => async (req, res, next) => {
+  try {
+    return await fn(req, res, next);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   loggerToConsole,
   loggerLogToFile,
-  loggerErrorToFile
+  loggerErrorToFile,
+  catchError
 };

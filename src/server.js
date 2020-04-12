@@ -7,10 +7,12 @@ app.listen(PORT, () =>
 
 process.on('uncaughtException', error => {
   console.error(`captured error: ${error.message}`);
-  throw error;
+  const { exit } = process;
+  exit(1);
 });
 
 process.on('unhandledRejection', reason => {
   console.error(`Unhandled rejection detected: ${reason.message}`);
-  throw reason;
+  const { exit } = process;
+  exit(1);
 });
