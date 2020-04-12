@@ -8,9 +8,11 @@ const taskRouter = require('./resources/task/task.router');
 const {
   loggerToConsole,
   loggerLogToFile,
-  loggerErrorToFile
+  loggerErrorToFile,
+  URLErrorHandler,
+  notFoundHandler,
+  commonErrorHandler
 } = require('./resources/logger/logger.module');
-const uuid = require('uuid');
 
 const app = express();
 
@@ -36,39 +38,9 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
 
-function idErrorHandler(req, res, next) {
-  if (!(req.param.id instanceof uuid)) {
-    res.status(400).send({ error: 'BAD_REQUEST' });
-  } else {
-    return next();
-  }
-}
-
-function URLErrorHandler(req, res, next) {
-  if (req.url !== '/users' || req.url !== '/boards') {
-    res.status(400).send({ error: 'BAD_REQUEST' });
-  } else {
-    return next();
-  }
-}
-
 app.use(URLErrorHandler);
-app.use(idErrorHandler);
-
-app.use((err, req, res, next) => {
-  if (err instanceof TypeError) {
-    err.status = 404;
-    err.text = 'Not found';
-    res.status(err.status).send(err.text);
-    return;
-  }
-  next(err);
-});
-
-// own
-app.use((err, req, res, next) => {
-  res.status(500).json('INTERNAL_SERVER_ERROR');
-  next(err);
-});
+app.use(notFoundHandler);
+// internal_server_error
+app.use(commonErrorHandler);
 
 module.exports = app;
