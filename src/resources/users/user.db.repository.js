@@ -1,6 +1,4 @@
 const User = require('./user.model');
-// eslint-disable-next-line no-unused-vars
-const usersData = [...require('../../db/db.client').users];
 
 const getAll = async () => {
   return User.find({});

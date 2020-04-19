@@ -1,17 +1,6 @@
 const uuid = require('uuid');
 const mongoose = require('mongoose');
-// class Board {
-//   constructor({ id = uuid(), title = 'title', columns = [] } = {}) {
-//     this.id = id;
-//     this.title = title;
-//     this.columns = columns;
-//   }
-//   static toUpdate(idBoard, data) {
-//     const { id } = idBoard;
-//     const { title, columns } = data;
-//     return { id, title, columns };
-//   }
-// }
+
 const boardSchema = new mongoose.Schema(
   {
     title: String,

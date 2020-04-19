@@ -6,6 +6,12 @@ const users = [
   new User({ name: '1', login: '1', password: '1' }),
   new User({ name: '2', login: '2', password: '2' })
 ];
+const Board = require('../resources/boards/board.model');
+const boards = [
+  new Board({ title: 'new', columns: [] }),
+  new Board({ title: 'new2', columns: [] })
+];
+
 const Task = require('../resources/task/task.model');
 const tasks = [
   new Task({
@@ -18,9 +24,6 @@ const tasks = [
   })
 ];
 
-const Board = require('../resources/boards/board.model');
-const boards = [new Board({})];
-
 const connectToDB = cb => {
   mongoose.connect(`${MONGO_CONNECTION_STRING}`, {
     useNewUrlParser: true,
@@ -32,8 +35,9 @@ const connectToDB = cb => {
     console.log('DB connected');
     await db.dropDatabase();
     users.forEach(user => user.save());
+    boards.forEach(board => board.save());
     cb();
   });
 };
 
-module.exports = { users, tasks, boards, connectToDB };
+module.exports = { users, boards, tasks, connectToDB };
