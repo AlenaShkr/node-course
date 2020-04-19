@@ -6,6 +6,20 @@ const users = [
   new User({ name: '1', login: '1', password: '1' }),
   new User({ name: '2', login: '2', password: '2' })
 ];
+const Task = require('../resources/task/task.model');
+const tasks = [
+  new Task({
+    title: 'title',
+    order: '0',
+    description: 'blablabla',
+    userId: null,
+    columnId: null,
+    boardId: null
+  })
+];
+
+const Board = require('../resources/boards/board.model');
+const boards = [new Board({})];
 
 const connectToDB = cb => {
   mongoose.connect(`${MONGO_CONNECTION_STRING}`, {
@@ -22,4 +36,4 @@ const connectToDB = cb => {
   });
 };
 
-module.exports = { users, connectToDB };
+module.exports = { users, tasks, boards, connectToDB };

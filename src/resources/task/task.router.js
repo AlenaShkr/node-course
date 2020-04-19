@@ -15,7 +15,7 @@ router.route('/:id').get(
   catchError(async (req, res) => {
     const task = await tasksService.getById(req.params.id);
     if (task) {
-      res.status(200).json(task);
+      res.status(200).json(Task.toResponse(task));
     } else throw new TypeError();
   })
 );
@@ -24,7 +24,7 @@ router.route('/').post(
   catchError(async (req, res) => {
     const id = req.params.boardId;
     const tasks = await tasksService.postTask(req.body, id);
-    res.json(tasks);
+    res.json(Task.toResponse(tasks));
   })
 );
 
@@ -40,7 +40,7 @@ router.route('/:id').put(
     const task = await tasksService.getById(req.params.id);
     if (task) {
       const updateTask = await tasksService.updateTask(task, req.body);
-      res.json(updateTask);
+      res.json(Task.toResponse(updateTask));
     } else throw new TypeError();
   })
 );
