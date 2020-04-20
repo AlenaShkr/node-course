@@ -5,7 +5,7 @@ const getAll = async () => {
 };
 
 const getById = async id => {
-  return Board.findOne({ _id: id });
+  return Board.findById(id);
 };
 
 const postBoard = async data => {
@@ -13,11 +13,11 @@ const postBoard = async data => {
 };
 
 const deleteBoard = async id => {
-  return Board.deleteOne({ _id: id }).exec().deletedCount;
+  return Board.deleteOne({ _id: id }).exec();
 };
 
 const updateBoard = async (id, data) => {
-  return Board.updateOne({ _id: id }, data);
+  return Board.findByIdAndUpdate(id, data, { new: true });
 };
 
 module.exports = { getAll, getById, postBoard, deleteBoard, updateBoard };

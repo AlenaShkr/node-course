@@ -6,11 +6,7 @@ const users = [
   new User({ name: '1', login: '1', password: '1' }),
   new User({ name: '2', login: '2', password: '2' })
 ];
-const Board = require('../resources/boards/board.model');
-const boards = [
-  new Board({ title: 'new', columns: [] }),
-  new Board({ title: 'new2', columns: [] })
-];
+const boards = [];
 
 const Task = require('../resources/task/task.model');
 const tasks = [

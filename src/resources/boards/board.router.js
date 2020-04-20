@@ -31,10 +31,9 @@ router.route('/').post(
 
 router.route('/:id').delete(
   catchError(async (req, res) => {
-    const board = await boardsService.getById(req.params.id);
-    if (board) {
+    const isDel = await boardsService.deleteBoard(req.params.id);
+    if (isDel !== 0) {
       taskService.deleteAllTask(req.params.id);
-      boardsService.deleteBoard(req.params.id);
       res.status(204).json();
     } else throw new TypeError();
   })
