@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
-const taskService = require('../task/task.service');
 
 const { catchError } = require('../logger/logger.module');
 
@@ -30,7 +29,6 @@ router.route('/:id').delete(
   catchError(async (req, res) => {
     const isDel = await usersService.deleteUser(req.params.id);
     if (isDel.ok !== 0) {
-      taskService.updateTaskUserId(req.params.id);
       res.status(204).json();
     } else throw new TypeError();
   })
