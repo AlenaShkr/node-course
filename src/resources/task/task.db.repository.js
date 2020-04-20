@@ -1,43 +1,32 @@
 const Task = require('./task.model');
 
-// const taskData = [...require('../../db/db.client').tasks];
-
 const getAll = async boardId => {
-  return Task.find({ _id: boardId });
-  // taskData.filter(item => item.boardId === boardId);
+  return Task.find({ boardId });
 };
 
 const getById = async id => {
   return Task.findOne({ _id: id });
-  // const task = taskData.find(element => element.id === id);
-  // return task;
 };
 
 const postTask = async (data, boardId) => {
-  return Task.create(data).updateOne({ _id: data.id }, boardId);
+  data.boardId = boardId;
+  return Task.create(data);
 };
 
 const deleteTask = async id => {
-  return Task.deleteOne({ _id: id }).exec().deletedCount;
+  return Task.deleteOne({ _id: id }).exec();
 };
 
 const deleteAllTask = async boardId => {
-  return Task.deleteMany({ boardId: !boardId }).exec().deletedCount;
-  // taskData = taskData.filter(item => item.boardId !== boardId);
-  // return;
+  return Task.deleteMany({ boardId }).exec();
 };
 
 const updateTask = async (id, data) => {
   return Task.updateOne({ _id: id }, data);
 };
 
-const updateTaskUserId = async idUser => {
-  return Task.find({ userId: idUser }).updateOne({ userId: idUser }, null);
-  // let index = taskData.findIndex(element => element.userId === idUser);
-  // while (index !== -1) {
-  //   taskData[index].userId = null;
-  //   index = taskData.findIndex(element => element.userId === idUser);
-  // }
+const updateTaskUserId = async userId => {
+  return Task.updateMany({ userId }, { userId: null });
 };
 
 module.exports = {

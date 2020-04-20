@@ -28,10 +28,9 @@ router.route('/').post(
 
 router.route('/:id').delete(
   catchError(async (req, res) => {
-    const user = await usersService.getById(req.params.id);
-    if (user) {
+    const isDel = await usersService.deleteUser(req.params.id);
+    if (isDel.ok !== 0) {
       taskService.updateTaskUserId(req.params.id);
-      usersService.deleteUser(req.params.id);
       res.status(204).json();
     } else throw new TypeError();
   })

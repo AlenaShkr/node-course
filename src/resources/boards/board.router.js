@@ -32,9 +32,11 @@ router.route('/').post(
 router.route('/:id').delete(
   catchError(async (req, res) => {
     const isDel = await boardsService.deleteBoard(req.params.id);
-    if (isDel !== 0) {
-      taskService.deleteAllTask(req.params.id);
-      res.status(204).json();
+    if (isDel.ok !== 0) {
+      const isDelTask = await taskService.deleteAllTask(req.params.id);
+      if (isDelTask.ok !== 0) {
+        res.status(204).json();
+      } else throw new TypeError();
     } else throw new TypeError();
   })
 );

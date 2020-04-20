@@ -13,7 +13,7 @@ const postUser = async data => {
 };
 
 const deleteUser = id => {
-  return User.deleteOne({ _id: id }).exec().deletedCount;
+  return User.deleteOne({ _id: id }).exec();
 };
 
 const updateUser = (id, data) => {

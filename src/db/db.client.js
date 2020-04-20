@@ -32,6 +32,7 @@ const connectToDB = cb => {
     await db.dropDatabase();
     users.forEach(user => user.save());
     boards.forEach(board => board.save());
+    tasks.forEach(task => task.save());
     cb();
   });
 };
