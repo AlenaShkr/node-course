@@ -8,7 +8,8 @@ const postLogin = async data => {
   if (!user) return false;
   const compareResult = await bcrypt.compare(data.password, user.password);
   if (!compareResult) return false;
-  return jwt.sign(data, JWT_SECRET_KEY);
+  const dataJWT = { userId: user.id, login: data.login };
+  return jwt.sign(dataJWT, JWT_SECRET_KEY);
 };
 
 module.exports = { postLogin };
