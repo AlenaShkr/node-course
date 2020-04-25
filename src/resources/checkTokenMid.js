@@ -11,11 +11,11 @@ const checkTokenVerify = token => {
 };
 
 const checkToken = (req, res, next) => {
-  const authHeader = JSON.stringify(req.headers.authorization);
-  if (!authHeader || !authHeader.startsWith('"Bearer ')) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json('Unauthorized');
   }
-  const token = authHeader.slice(8, -1);
+  const token = authHeader.slice(7, authHeader.length);
   const isToken = checkTokenVerify(token);
   if (!isToken) {
     return res.status(401).json('Unauthorized');
