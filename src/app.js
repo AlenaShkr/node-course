@@ -31,13 +31,14 @@ app.use('/', (req, res, next) => {
   }
   next();
 });
+
 app.use('/login', loginRouter);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
 
 function URLErrorHandler(req, res, next) {
-  if (req.url !== '/users' || req.url !== '/boards') {
+  if (req.url !== '/users' || req.url !== '/boards' || req.url !== '/login') {
     res.status(400).send({ error: 'BAD_REQUEST' });
   } else {
     return next();
@@ -50,6 +51,16 @@ app.use((err, req, res, next) => {
   if (err instanceof TypeError) {
     err.status = 404;
     err.text = 'Not found';
+    res.status(err.status).send(err.text);
+    return;
+  }
+  next(err);
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof Error && err.message === '403') {
+    err.status = 403;
+    err.text = 'Forbidden';
     res.status(err.status).send(err.text);
     return;
   }

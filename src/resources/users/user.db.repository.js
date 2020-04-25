@@ -19,4 +19,16 @@ const deleteUser = id => {
 const updateUser = (id, data) => {
   return User.updateOne({ _id: data.id }, data);
 };
-module.exports = { getAll, getById, postUser, deleteUser, updateUser };
+
+const getByLogin = login => {
+  return User.findOne({ login });
+};
+
+module.exports = {
+  getAll,
+  getById,
+  postUser,
+  deleteUser,
+  updateUser,
+  getByLogin
+};

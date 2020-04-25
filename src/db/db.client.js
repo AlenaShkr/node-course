@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const User = require('../resources/users/user.model');
 const users = [
-  new User({ name: '1', login: 'admin', password: 'admin' }),
+  new User({ name: '1', login: '1', password: '1' }),
   new User({ name: '2', login: '2', password: '2' })
 ];
 // const boards = [];
