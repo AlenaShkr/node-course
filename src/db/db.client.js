@@ -1,24 +1,11 @@
 const { MONGO_CONNECTION_STRING } = require('../common/config');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const User = require('../resources/users/user.model');
-const users = [
-  new User({ name: '1', login: '1', password: '1' }),
-  new User({ name: '2', login: '2', password: '2' })
-];
-// const boards = [];
-
-// const Task = require('../resources/task/task.model');
-// const tasks = [
-//   new Task({
-//     title: 'title',
-//     order: '0',
-//     description: 'blablabla',
-//     userId: null,
-//     columnId: null,
-//     boardId: null
-//   })
-// ];
+// eslint-disable-next-line no-sync
+const hash = bcrypt.hashSync('admin', 10);
+const users = [new User({ name: '1', login: 'admin', password: hash })];
 
 const connectToDB = cb => {
   mongoose.connect(`${MONGO_CONNECTION_STRING}`, {
@@ -31,8 +18,6 @@ const connectToDB = cb => {
     console.log('DB connected');
     await db.dropDatabase();
     users.forEach(user => user.save());
-    // boards.forEach(board => board.save());
-    // tasks.forEach(task => task.save());
     cb();
   });
 };

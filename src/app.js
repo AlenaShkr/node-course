@@ -11,6 +11,7 @@ const {
   loggerLogToFile,
   loggerErrorToFile
 } = require('./resources/logger/logger.module');
+const checkToken = require('./resources/checkTokenMid');
 
 const app = express();
 
@@ -33,9 +34,9 @@ app.use('/', (req, res, next) => {
 });
 
 app.use('/login', loginRouter);
-app.use('/users', userRouter);
-app.use('/boards', boardRouter);
-boardRouter.use('/:boardId/tasks', taskRouter);
+app.use('/users', checkToken, userRouter);
+app.use('/boards', checkToken, boardRouter);
+boardRouter.use('/:boardId/tasks', checkToken, taskRouter);
 
 function URLErrorHandler(req, res, next) {
   if (req.url !== '/users' || req.url !== '/boards' || req.url !== '/login') {
