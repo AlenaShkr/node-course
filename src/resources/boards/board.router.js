@@ -5,7 +5,7 @@ const taskService = require('../task/task.service');
 
 const { catchError } = require('../logger/logger.module');
 
-const { checkParams } = require('./board.schema.validation');
+const { checkParams, checkBody } = require('./board.schema.validation');
 
 router.route('/').get(
   catchError(async (req, res) => {
@@ -26,6 +26,7 @@ router.route('/:id').get(
 );
 
 router.route('/').post(
+  checkBody,
   catchError(async (req, res) => {
     const newBoard = await boardsService.postBoard(req.body);
     res.status(200).json(Board.toResponse(newBoard));
@@ -46,6 +47,7 @@ router.route('/:id').delete(
 );
 
 router.route('/:id').put(
+  [...checkParams, ...checkBody],
   catchError(async (req, res) => {
     const board = boardsService.getById(req.params.id);
     if (board) {
