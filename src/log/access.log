@@ -1,0 +1,6 @@
+date: Tue, 22 Dec 2020 17:54:15 GMT   "GET /doc/"  status: 200  params: {} body: {} referrer: "-" 
+date: Tue, 22 Dec 2020 17:54:16 GMT   "GET /doc/swagger-ui-init.js"  status: 200  params: {} body: {} referrer: "http://localhost:4000/doc/" 
+date: Tue, 22 Dec 2020 17:54:16 GMT   "GET /doc/swagger-ui-bundle.js"  status: 200  params: {} body: {} referrer: "http://localhost:4000/doc/" 
+date: Tue, 22 Dec 2020 17:54:16 GMT   "GET /doc/swagger-ui.css"  status: 200  params: {} body: {} referrer: "http://localhost:4000/doc/" 
+date: Tue, 22 Dec 2020 17:54:16 GMT   "GET /doc/swagger-ui-standalone-preset.js"  status: 200  params: {} body: {} referrer: "http://localhost:4000/doc/" 
+date: Tue, 22 Dec 2020 17:54:21 GMT   "GET /doc/favicon-32x32.png"  status: 200  params: {} body: {} referrer: "http://localhost:4000/doc/" 

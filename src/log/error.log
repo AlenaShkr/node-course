@@ -1,0 +1,2 @@
+date: Tue, 22 Dec 2020 17:54:54 GMT   "GET /users"  status: 401  params: {} body: {} referrer: "http://localhost:4000/doc/" 
+date: Tue, 22 Dec 2020 17:56:00 GMT   "POST /login"  status: 403  params: {} body: {"login":"string","password":"string"} referrer: "http://localhost:4000/doc/" 
